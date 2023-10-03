@@ -2,13 +2,80 @@
 <html>
 <head>
   <title>Maus und Käse Spiel</title>
-  <link rel="stylesheet" href="app.css">
-  <script src="app.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      cursor: none;
+    }
+    #gameArea {
+      position: relative;
+      width: 800px;
+      height: 600px;
+      border: 2px solid black;
+      overflow: hidden;
+    }
+    .cheese {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background-image: url('data:image/png;base64,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'); /* Dein Käse-Bild hier */
+    }
+    #mouseCursor {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-image: url('data:image/png;base64,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'); /* Dein Maus-Bild hier */
+    }
+  </style>
 </head>
 <body>
   <div id="gameArea">
     <div id="mouseCursor"></div>
   </div>
   <div id="score">Score: <span id="scoreCount">0</span></div>
+  <script>
+let score = 0;
+const mouseCursor = document.getElementById('mouseCursor');
+const scoreCount = document.getElementById('scoreCount');
+const gameArea = document.getElementById('gameArea');
+
+function moveCursor(x, y) {
+  mouseCursor.style.left = x - 25 + 'px';
+  mouseCursor.style.top = y - 25 + 'px';
+}
+
+document.addEventListener('mousemove', function(event) {
+  moveCursor(event.clientX, event.clientY);
+});
+
+document.addEventListener('touchmove', function(event) {
+  const touch = event.touches[0];
+  moveCursor(touch.clientX, touch.clientY);
+  event.preventDefault(); // Verhindert Scrollen beim Touch
+});
+
+function spawnCheese() {
+  let cheese = document.createElement('div');
+  cheese.className = 'cheese';
+  cheese.style.left = Math.random() * 770 + 'px';
+  cheese.style.top = Math.random() * 570 + 'px';
+  gameArea.appendChild(cheese);
+
+  function collectCheese() {
+    cheese.remove();
+    score++;
+    scoreCount.textContent = score;
+  }
+
+  cheese.addEventListener('mouseenter', collectCheese);
+  cheese.addEventListener('touchstart', function(event) {
+    collectCheese();
+    event.preventDefault(); // Verhindert zusätzliche Touch-Events
+  });
+}
+
+setInterval(spawnCheese, 2000);
+  </script>
 </body>
 </html>
